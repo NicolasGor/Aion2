@@ -125,6 +125,25 @@ EOF</pre><button type="button">Copia</button></div>
   </div>
 </section>
 
+<section class="step" data-step="7">
+  <div class="num">★</div>
+  <div class="body">
+    <h3>Icona sul desktop (una volta sola)</h3>
+    <p class="note">Incolla tutto insieme in Konsole e premi Invio. Sul desktop compare «A2Tools DPS Meter».</p>
+    <div class="cmd"><pre>cat &gt; ~/Desktop/A2Tools.desktop &lt;&lt;'EOF'
+[Desktop Entry]
+Type=Application
+Name=A2Tools DPS Meter
+Exec=distrobox enter --root a2tools -- a2tools-dps-meter
+Icon=utilities-system-monitor
+Terminal=true
+EOF
+chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></div>
+    <p class="note">Da qui in poi: avvia il gioco, poi doppio clic sull'icona. Si apre Konsole: se ti chiede la password del Deck, scrivila. Non chiudere quella finestra.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
