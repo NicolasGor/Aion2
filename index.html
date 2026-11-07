@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DPS meter su Steam Deck</title>
+<style>
+:root {
+  --bg: #f6f5f2; --card: #ffffff; --text: #1d1c1a; --muted: #5f5c56; --line: #dedbd4;
+  --accent: #2f5fa8; --soft: #e6edf8; --code-bg: #1f2328; --code-text: #e8eaed; --ok: #4b9a5a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17181a; --card: #212225; --text: #e9e7e3; --muted: #a7a39b; --line: #34363a;
+    --accent: #8fb3ec; --soft: #23314a; --code-bg: #0e1013; --code-text: #e8eaed; --ok: #5fae6e;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17181a; --card: #212225; --text: #e9e7e3; --muted: #a7a39b; --line: #34363a;
+  --accent: #8fb3ec; --soft: #23314a; --code-bg: #0e1013; --code-text: #e8eaed; --ok: #5fae6e;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 56px; }
+h1 { font-size: 1.6rem; margin: 0 0 16px; }
+h2 { font-size: 1.15rem; margin: 32px 0 10px; color: var(--muted); }
+p { margin: 0 0 8px; }
+.tips { background: var(--soft); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+.tips p { margin: 2px 0; }
+kbd { font: 0.85em ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; background: var(--card); white-space: nowrap; }
+.step { display: flex; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin: 10px 0; }
+.step.done { opacity: 0.55; }
+.num { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 700; }
+.body { flex: 1; min-width: 0; }
+.body h3 { font-size: 1.05rem; margin: 3px 0 6px; }
+.note { color: var(--muted); font-size: 0.92rem; }
+.cmd { position: relative; margin: 6px 0; }
+.cmd pre { margin: 0; background: var(--code-bg); color: var(--code-text); border-radius: 8px; padding: 10px 12px; padding-right: 80px; font: 0.86rem/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cmd button { position: absolute; top: 7px; right: 7px; font: 600 0.82rem system-ui, sans-serif; padding: 5px 10px; border: 0; border-radius: 6px; background: var(--accent); color: var(--bg); cursor: pointer; }
+.cmd button.copied { background: var(--ok); }
+.check { flex: 0 0 auto; }
+.check input { width: 22px; height: 22px; margin-top: 4px; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>DPS meter sullo Steam Deck</h1>
+
+<div class="tips">
+  <p>📋 Incollare in Konsole: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>, poi <kbd>Invio</kbd></p>
+  <p>🔒 Le password non si vedono mentre le scrivi: è normale</p>
+  <p>⏳ Prima di incollare il comando successivo, aspetta che torni <code>(deck@steamdeck ~)$</code></p>
+</div>
+
+<h2>Installazione, una volta sola</h2>
+
+<section class="step" data-step="1">
+  <div class="num">1</div>
+  <div class="body">
+    <h3>Modalità Desktop, poi apri Konsole</h3>
+    <p class="note">STEAM → Spegni → Passa al desktop. Konsole è nel menu in basso a sinistra.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<section class="step" data-step="2">
+  <div class="num">2</div>
+  <div class="body">
+    <h3>Crea la password del Deck</h3>
+    <div class="cmd"><pre>passwd</pre><button type="button">Copia</button></div>
+    <p class="note">Scrivila due volte e segnatela: ti servirà nei passi successivi.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<section class="step" data-step="3">
+  <div class="num">3</div>
+  <div class="body">
+    <h3>Prepara lo spazio</h3>
+    <div class="cmd"><pre>sudo mkdir -p /home/.a2tools-containers</pre><button type="button">Copia</button></div>
+    <div class="cmd"><pre>sudo tee /etc/containers/storage.conf &lt;&lt;'EOF'
+[storage]
+driver = "overlay"
+graphroot = "/home/.a2tools-containers"
+runroot = "/run/containers/storage"
+EOF</pre><button type="button">Copia</button></div>
+    <p class="note">Il secondo comando si incolla tutto insieme, in una volta sola.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<section class="step" data-step="4">
+  <div class="num">4</div>
+  <div class="body">
+    <h3>Crea la scatola</h3>
+    <div class="cmd"><pre>distrobox create --root --name a2tools --image archlinux:latest</pre><button type="button">Copia</button></div>
+    <p class="note">Se chiede <code>[Y/n]</code>: scrivi <kbd>Y</kbd> e Invio. Ci mette qualche minuto.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<section class="step" data-step="5">
+  <div class="num">5</div>
+  <div class="body">
+    <h3>Scarica e installa il meter</h3>
+    <div class="cmd"><pre>curl -LO https://cdn.a2tools.app/linux/a2tools-dps-meter-latest-x86_64.pkg.tar.zst</pre><button type="button">Copia</button></div>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -Syu --noconfirm</pre><button type="button">Copia</button></div>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -U --noconfirm ~/a2tools-dps-meter-latest-x86_64.pkg.tar.zst</pre><button type="button">Copia</button></div>
+    <p class="note">Al secondo comando, la prima volta ti fa scegliere una nuova password per la scatola: va bene anche la stessa del Deck.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<h2>Ogni volta che giochi</h2>
+
+<section class="step" data-step="6">
+  <div class="num">▶</div>
+  <div class="body">
+    <h3>Prima il gioco, poi il meter</h3>
+    <p class="note">In Modalità Desktop avvia AION 2 da Steam, poi incolla in Konsole:</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- a2tools-dps-meter</pre><button type="button">Copia</button></div>
+    <p class="note">Tieni Konsole aperta. La volta dopo basta la freccia <kbd>↑</kbd> e poi Invio.</p>
+  </div>
+</section>
+
+<h2>Se si blocca</h2>
+<p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
+Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
+Altro: fai una foto a Konsole e mandala a Claude.</p>
+
+</main>
+<script>
+(function () {
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  function flash(btn, ok) {
+    btn.textContent = ok ? 'Copiato ✓' : 'Seleziona a mano';
+    btn.classList.toggle('copied', ok);
+    setTimeout(function () { btn.textContent = 'Copia'; btn.classList.remove('copied'); }, 1800);
+  }
+  document.querySelectorAll('.cmd button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.parentNode.querySelector('pre').textContent;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { flash(btn, true); }, function () { flash(btn, fallbackCopy(text)); });
+      } else { flash(btn, fallbackCopy(text)); }
+    });
+  });
+  var KEY = 'guida-dps-steamdeck-passi', saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  document.querySelectorAll('.step').forEach(function (step) {
+    var id = step.getAttribute('data-step'), box = step.querySelector('.check input');
+    if (!box) return;
+    if (saved[id]) { box.checked = true; step.classList.add('done'); }
+    box.addEventListener('change', function () {
+      step.classList.toggle('done', box.checked);
+      saved[id] = box.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
