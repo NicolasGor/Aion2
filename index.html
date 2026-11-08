@@ -175,6 +175,7 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm onboard</pre><button type="button">Copia</button></div>
     <p class="note">Falla scrivere come una tastiera vera (uinput), altrimenti i tasti non arrivano. Con Onboard chiusa:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- gsettings set org.onboard.keyboard key-synth uinput</pre><button type="button">Copia</button></div>
+    <p class="note"><b>Regola perché non rubi il focus</b>: Regole delle finestre → Aggiungi nuova → Rileva le proprietà della finestra → clic su Onboard (se la classe resta vuota: «Non importante» + Titolo della finestra, Corrispondenza esatta, <code>Onboard</code>). Aggiungi proprietà, su Forza: «Accetta il focus» No, «Mantieni sopra le altre» Sì.</p>
     <p class="note">Aprila e prova prima in Chrome, poi nel gioco:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- onboard</pre><button type="button">Copia</button></div>
     <p class="note">Solo se funziona: icone di Onboard e del meter nel menu delle applicazioni (incolla tutto insieme):</p>
