@@ -150,7 +150,7 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
     <h3>Avvio senza password (una volta sola)</h3>
     <p class="note">Dopo questo, meter, Onboard e scatola non chiedono più la password. Il resto del Deck sì.</p>
     <div class="cmd"><pre>echo "deck ALL=(root) NOPASSWD: $(command -v podman)" &gt; /tmp/a2tools &amp;&amp; sudo visudo -cf /tmp/a2tools &amp;&amp; sudo install -m 440 /tmp/a2tools /etc/sudoers.d/a2tools</pre><button type="button">Copia</button></div>
-    <p class="note">Chiede la password del Deck un'ultima volta. Se compare <code>parsed OK</code> è fatto. Per toglierlo: <code>sudo rm /etc/sudoers.d/a2tools</code></p>
+    <p class="note">Chiede la password del Deck un'ultima volta. Se compare <code>analisi effettuata correttamente</code> (in inglese <code>parsed OK</code>) è fatto. Per toglierlo: <code>sudo rm /etc/sudoers.d/a2tools</code></p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
