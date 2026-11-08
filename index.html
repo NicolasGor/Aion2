@@ -139,7 +139,18 @@ Icon=utilities-system-monitor
 Terminal=true
 EOF
 chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></div>
-    <p class="note">Da qui in poi: avvia il gioco, poi doppio clic sull'icona. Si apre Konsole: se ti chiede la password del Deck, scrivila. Non chiudere quella finestra.</p>
+    <p class="note">Da qui in poi: avvia il gioco, poi doppio clic sull'icona. Si apre Konsole: non chiudere quella finestra.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
+<section class="step" data-step="10">
+  <div class="num">🔓</div>
+  <div class="body">
+    <h3>Avvio senza password (una volta sola)</h3>
+    <p class="note">Dopo questo, meter, Onboard e scatola non chiedono più la password. Il resto del Deck sì.</p>
+    <div class="cmd"><pre>echo "deck ALL=(root) NOPASSWD: $(command -v podman)" &gt; /tmp/a2tools &amp;&amp; sudo visudo -cf /tmp/a2tools &amp;&amp; sudo install -m 440 /tmp/a2tools /etc/sudoers.d/a2tools</pre><button type="button">Copia</button></div>
+    <p class="note">Chiede la password del Deck un'ultima volta. Se compare <code>parsed OK</code> è fatto. Per toglierlo: <code>sudo rm /etc/sudoers.d/a2tools</code></p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
@@ -173,6 +184,7 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
+Password rifiutata anche se è giusta: dopo 3 errori il Deck la blocca. Aspetta 15 minuti senza riprovare. Per vedere i tentativi: <code>faillock --user deck</code><br>
 Altro: fai una foto a Konsole e mandala a Claude.</p>
 
 </main>
