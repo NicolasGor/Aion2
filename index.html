@@ -167,25 +167,58 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
-<section class="step" data-step="11">
+<section class="step" data-step="12">
   <div class="num">⌨</div>
   <div class="body">
-    <h3>Captcha: mini app per copiare e incollare</h3>
-    <p class="note">La tastiera di Steam non scrive nel gioco, ma scrive in Chrome. Si digita in una finestrella e si incolla nel gioco con un tasto.</p>
-    <p class="note"><b>1. Icona «Captcha»</b> sul desktop e nel menu (incolla tutto insieme):</p>
-    <div class="cmd"><pre>mkdir -p ~/.local/share/applications
+    <h3>Captcha: programmino per copiare e incollare</h3>
+    <p class="note">La tastiera di Steam non scrive nel gioco. Si scrive in una finestrella e si incolla nel gioco con un tasto.</p>
+    <p class="note"><b>1. Installa</b> (nella scatola del meter):</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm --needed python tk</pre><button type="button">Copia</button></div>
+    <p class="note"><b>2. Programma e icona «Captcha»</b> (incolla tutto insieme):</p>
+    <div class="cmd"><pre>mkdir -p ~/.local/bin ~/.local/share/applications
+cat &gt; ~/.local/bin/captcha.py &lt;&lt;'EOF'
+import tkinter as tk
+root = tk.Tk()
+root.title("Captcha")
+root.geometry("440x150")
+root.attributes("-topmost", True)
+v = tk.StringVar()
+e = tk.Entry(root, textvariable=v, font=("monospace", 24))
+e.pack(fill="x", padx=10, pady=(10, 6))
+row = tk.Frame(root)
+row.pack(fill="x", padx=10)
+info = tk.Label(root, text="Invio = Copia")
+info.pack(pady=6)
+def copia(*_):
+    t = v.get().strip()
+    if not t:
+        return
+    root.clipboard_clear()
+    root.clipboard_append(t)
+    root.update()
+    info.config(text="Copiato. Nel gioco premi il tasto Ctrl+V")
+def pulisci():
+    v.set("")
+    info.config(text="Invio = Copia")
+    e.focus_set()
+tk.Button(row, text="Copia", font=("sans", 16, "bold"), command=copia).pack(side="left", expand=True, fill="x")
+tk.Button(row, text="Pulisci", font=("sans", 16), command=pulisci).pack(side="left", padx=(8, 0))
+e.bind("&lt;Return&gt;", copia)
+e.focus_set()
+root.mainloop()
+EOF
 cat &gt; ~/.local/share/applications/Captcha-a2.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Type=Application
 Name=Captcha
-Exec=sh -c "flatpak run com.google.Chrome --app=https://nicolasgor.github.io/Aion2/captcha.html --window-size=440,220 || google-chrome --app=https://nicolasgor.github.io/Aion2/captcha.html"
+Exec=distrobox enter --root a2tools -- python3 /home/deck/.local/bin/captcha.py
 Icon=input-keyboard
 Terminal=false
 EOF
 chmod +x ~/.local/share/applications/Captcha-a2.desktop
 cp ~/.local/share/applications/Captcha-a2.desktop ~/Desktop/</pre><button type="button">Copia</button></div>
-    <p class="note"><b>2. Tasto Ctrl+V nel layout</b>: in gioco STEAM → Impostazioni controller → Modifica layout → un tasto libero (es. L4) → Ctrl, poi ingranaggio → Aggiungi comando → V.</p>
-    <p class="note"><b>Uso</b>: apri «Captcha», scrivi con STEAM+X, premi Invio (copia). Clicca nella casella del gioco e premi L4.</p>
+    <p class="note"><b>3. Tasto Ctrl+V nel layout</b>: in gioco STEAM → Impostazioni controller → Modifica layout → un tasto libero (es. L4) → Ctrl, poi ingranaggio → Aggiungi comando → V.</p>
+    <p class="note"><b>Uso</b>: doppio clic su «Captcha», clic nella casella, scrivi con STEAM+X, Invio. Poi clicca nella casella del gioco e premi L4.</p>
     <p class="note">Nella barra in basso: menu → cerca «Captcha» → clic destro → Fissa nel gestore dei processi.</p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
