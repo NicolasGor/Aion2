@@ -173,9 +173,20 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
     <h3>Tastiera a schermo per il gioco (Onboard)</h3>
     <p class="note">In Modalità Desktop la tastiera di Steam non scrive nel gioco. Installa Onboard:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm onboard</pre><button type="button">Copia</button></div>
-    <p class="note">Per aprirla:</p>
-    <div class="cmd"><pre>distrobox enter --root a2tools -- onboard</pre><button type="button">Copia</button></div>
-    <p class="note">Clicca nella casella del gioco, poi premi i tasti su Onboard. ⚠️ Da provare.</p>
+    <p class="note">Icone di Onboard e del meter nel menu delle applicazioni (incolla tutto insieme):</p>
+    <div class="cmd"><pre>mkdir -p ~/.local/share/applications
+cp ~/Desktop/A2Tools.desktop ~/.local/share/applications/
+cat &gt; ~/.local/share/applications/Onboard-a2tools.desktop &lt;&lt;'EOF'
+[Desktop Entry]
+Type=Application
+Name=Tastiera Onboard
+Exec=distrobox enter --root a2tools -- onboard
+Icon=input-keyboard
+Terminal=false
+EOF
+chmod +x ~/.local/share/applications/A2Tools.desktop ~/.local/share/applications/Onboard-a2tools.desktop</pre><button type="button">Copia</button></div>
+    <p class="note"><b>Nella barra in basso</b>: apri il menu (icona in basso a sinistra), cerca «A2Tools DPS Meter» → clic destro → <b>Fissa nel gestore dei processi</b>. Uguale per «Tastiera Onboard».</p>
+    <p class="note">Per usarla: clicca nella casella del gioco, poi premi i tasti su Onboard. ⚠️ Da provare.</p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
