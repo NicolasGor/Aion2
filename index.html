@@ -181,10 +181,24 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
+<h2>Password rifiutata anche se è giusta</h2>
+
+<section class="step">
+  <div class="num">!</div>
+  <div class="body">
+    <h3>Dopo 3 errori il Deck blocca la password</h3>
+    <p class="note">1. Chiudi Konsole e aspetta <b>15 minuti</b> senza provare nessuna password (né meter, né Onboard, né Discover). Ogni tentativo allunga il blocco.</p>
+    <p class="note">2. Guarda i tentativi sbagliati (non chiede password). L'ultimo deve essere di almeno 10 minuti fa:</p>
+    <div class="cmd"><pre>faillock --user deck</pre><button type="button">Copia</button></div>
+    <p class="note">3. Una prova sola: <b>Malusc spento</b>, scrivi piano, un solo Invio. Va bene anche il passo 🔓 al posto di questo.</p>
+    <div class="cmd"><pre>sudo true</pre><button type="button">Copia</button></div>
+    <p class="note">Torna <code>(deck@steamdeck ~)$</code> senza errori: è sbloccata. Compare <code>Riprovare</code>: non scrivere altro, chiudi Konsole e manda una foto.</p>
+  </div>
+</section>
+
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
-Password rifiutata anche se è giusta: dopo 3 errori il Deck la blocca. Aspetta 15 minuti senza riprovare. Per vedere i tentativi: <code>faillock --user deck</code><br>
 Altro: fai una foto a Konsole e mandala a Claude.</p>
 
 </main>
