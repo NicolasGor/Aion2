@@ -196,6 +196,20 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   </div>
 </section>
 
+<section class="step">
+  <div class="num">✎</div>
+  <div class="body">
+    <h3>Cambiare la password se Malusc non funziona</h3>
+    <p class="note">Per una password con l'iniziale maiuscola. Nella stessa Konsole, uno alla volta. Il riavvio del Deck azzera il blocco.</p>
+    <p class="note">1. Scrivi la password <b>tutta minuscola</b> (non si vede), poi Invio. Il comando rende maiuscola la prima lettera:</p>
+    <div class="cmd"><pre>read -rsp "Password tutta minuscola: " p; echo; printf '%s\n' "${p^}" | sudo -S true; unset p</pre><button type="button">Copia</button></div>
+    <p class="note">Torna <code>(deck@steamdeck ~)$</code> senza errori: accettata. Subito dopo:</p>
+    <p class="note">2. Nuova password, <b>solo minuscole e numeri</b>, scritta due volte:</p>
+    <div class="cmd"><pre>sudo passwd deck</pre><button type="button">Copia</button></div>
+    <p class="note">3. Poi il passo 🔓, per avviare il meter senza password.</p>
+  </div>
+</section>
+
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
