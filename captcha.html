@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Captcha</title>
+<style>
+:root { --bg: #17181a; --card: #212225; --text: #e9e7e3; --muted: #a7a39b; --line: #3a3c40; --accent: #8fb3ec; --ok: #5fae6e; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--text); font: 16px/1.4 system-ui, sans-serif; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.box { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 10px; }
+input { width: 100%; font: 600 26px/1.2 ui-monospace, Menlo, monospace; letter-spacing: 0.08em; padding: 10px 12px; border-radius: 10px; border: 2px solid var(--line); background: var(--card); color: var(--text); outline: none; }
+input:focus { border-color: var(--accent); }
+.row { display: flex; gap: 8px; }
+button { flex: 1; font: 700 18px system-ui, sans-serif; padding: 12px; border: 0; border-radius: 10px; cursor: pointer; background: var(--accent); color: var(--bg); }
+button.secondary { flex: 0 0 auto; background: var(--line); color: var(--text); }
+button.copied { background: var(--ok); }
+.hint { color: var(--muted); font-size: 13px; text-align: center; min-height: 1.2em; }
+</style>
+</head>
+<body>
+<div class="box">
+  <input id="t" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Scrivi il captcha" autofocus>
+  <div class="row">
+    <button id="copy" type="button">Copia</button>
+    <button id="clear" class="secondary" type="button">Pulisci</button>
+  </div>
+  <div class="hint" id="hint">Invio = Copia · poi nel gioco il tasto Ctrl+V</div>
+</div>
+<script>
+(function () {
+  var t = document.getElementById('t');
+  var copy = document.getElementById('copy');
+  var hint = document.getElementById('hint');
+  function fallback(text) {
+    t.focus(); t.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    return ok;
+  }
+  function done(ok) {
+    copy.textContent = ok ? 'Copiato ✓' : 'Non copiato';
+    copy.classList.toggle('copied', ok);
+    hint.textContent = ok ? 'Ora clicca nel gioco e premi il tasto Ctrl+V' : 'Selezionalo e copialo a mano';
+    setTimeout(function () { copy.textContent = 'Copia'; copy.classList.remove('copied'); }, 2000);
+  }
+  function doCopy() {
+    var text = t.value.trim();
+    if (!text) { t.focus(); return; }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallback(text)); });
+    } else { done(fallback(text)); }
+  }
+  copy.addEventListener('click', doCopy);
+  t.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doCopy(); } });
+  document.getElementById('clear').addEventListener('click', function () {
+    t.value = ''; hint.textContent = 'Invio = Copia · poi nel gioco il tasto Ctrl+V'; t.focus();
+  });
+})();
+</script>
+</body>
+</html>

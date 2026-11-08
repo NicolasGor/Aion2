@@ -167,14 +167,28 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
-<section class="step" data-step="9">
+<section class="step" data-step="11">
   <div class="num">⌨</div>
   <div class="body">
-    <h3>Tastiera a schermo per il gioco</h3>
-    <p class="note">In Modalità Desktop la tastiera di Steam non scrive nel gioco. Soluzione ancora da trovare.</p>
-    <p class="note">⚠️ <b>Onboard non funziona</b>: ruba il focus, e in modalità uinput ha bloccato tastiera e mouse del Deck (riavvio forzato: tasto di accensione per 10 secondi). Se l'avevi impostata, rimettila com'era:</p>
-    <div class="cmd"><pre>distrobox enter --root a2tools -- gsettings reset org.onboard.keyboard key-synth</pre><button type="button">Copia</button></div>
+    <h3>Captcha: mini app per copiare e incollare</h3>
+    <p class="note">La tastiera di Steam non scrive nel gioco, ma scrive in Chrome. Si digita in una finestrella e si incolla nel gioco con un tasto.</p>
+    <p class="note"><b>1. Icona «Captcha»</b> sul desktop e nel menu (incolla tutto insieme):</p>
+    <div class="cmd"><pre>mkdir -p ~/.local/share/applications
+cat &gt; ~/.local/share/applications/Captcha-a2.desktop &lt;&lt;'EOF'
+[Desktop Entry]
+Type=Application
+Name=Captcha
+Exec=sh -c "flatpak run com.google.Chrome --app=https://nicolasgor.github.io/Aion2/captcha.html --window-size=440,220 || google-chrome --app=https://nicolasgor.github.io/Aion2/captcha.html"
+Icon=input-keyboard
+Terminal=false
+EOF
+chmod +x ~/.local/share/applications/Captcha-a2.desktop
+cp ~/.local/share/applications/Captcha-a2.desktop ~/Desktop/</pre><button type="button">Copia</button></div>
+    <p class="note"><b>2. Tasto Ctrl+V nel layout</b>: in gioco STEAM → Impostazioni controller → Modifica layout → un tasto libero (es. L4) → Ctrl, poi ingranaggio → Aggiungi comando → V.</p>
+    <p class="note"><b>Uso</b>: apri «Captcha», scrivi con STEAM+X, premi Invio (copia). Clicca nella casella del gioco e premi L4.</p>
+    <p class="note">Nella barra in basso: menu → cerca «Captcha» → clic destro → Fissa nel gestore dei processi.</p>
   </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
 <h2>Se si blocca</h2>
