@@ -173,7 +173,11 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
     <h3>Tastiera a schermo per il gioco (Onboard)</h3>
     <p class="note">In Modalità Desktop la tastiera di Steam non scrive nel gioco. Installa Onboard:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm onboard</pre><button type="button">Copia</button></div>
-    <p class="note">Icone di Onboard e del meter nel menu delle applicazioni (incolla tutto insieme):</p>
+    <p class="note">Falla scrivere come una tastiera vera (uinput), altrimenti i tasti non arrivano. Con Onboard chiusa:</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- gsettings set org.onboard.keyboard key-synth uinput</pre><button type="button">Copia</button></div>
+    <p class="note">Aprila e prova prima in Chrome, poi nel gioco:</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- onboard</pre><button type="button">Copia</button></div>
+    <p class="note">Solo se funziona: icone di Onboard e del meter nel menu delle applicazioni (incolla tutto insieme):</p>
     <div class="cmd"><pre>mkdir -p ~/.local/share/applications
 cp ~/Desktop/A2Tools.desktop ~/.local/share/applications/
 cat &gt; ~/.local/share/applications/Onboard-a2tools.desktop &lt;&lt;'EOF'
