@@ -157,6 +157,19 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
+<section class="step" data-step="9">
+  <div class="num">⌨</div>
+  <div class="body">
+    <h3>Tastiera a schermo per il gioco (Onboard)</h3>
+    <p class="note">In Modalità Desktop la tastiera di Steam (STEAM+X) non scrive nel gioco. Installa Onboard, una volta sola:</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm onboard</pre><button type="button">Copia</button></div>
+    <p class="note">Per aprirla:</p>
+    <div class="cmd"><pre>distrobox enter --root a2tools -- onboard</pre><button type="button">Copia</button></div>
+    <p class="note">Clicca nella casella del gioco, poi premi i tasti su Onboard. Non chiudere Konsole. ⚠️ Da provare.</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
