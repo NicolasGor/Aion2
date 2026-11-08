@@ -49,10 +49,20 @@ kbd { font: 0.85em ui-monospace, Menlo, monospace; border: 1px solid var(--line)
 <h1>DPS meter sullo Steam Deck</h1>
 
 <div class="tips">
-  <p>📋 Incollare in Konsole: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>, poi <kbd>Invio</kbd></p>
+  <p>📋 Incollare in Konsole: pulsante <b>Incolla</b> in alto, oppure <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>. Poi <kbd>Invio</kbd></p>
   <p>🔒 Le password non si vedono mentre le scrivi: è normale</p>
   <p>⏳ Prima di incollare il comando successivo, aspetta che torni <code>(deck@steamdeck ~)$</code></p>
 </div>
+
+<h2>Ogni volta che giochi</h2>
+
+<section class="step">
+  <div class="num">▶</div>
+  <div class="body">
+    <h3>Prima il gioco, poi il meter</h3>
+    <p class="note">Modalità Desktop → avvia AION 2 da Steam → doppio clic sull'icona «A2Tools DPS Meter». Non chiudere la finestra di Konsole che si apre.</p>
+  </div>
+</section>
 
 <h2>Installazione, una volta sola</h2>
 
@@ -70,7 +80,7 @@ kbd { font: 0.85em ui-monospace, Menlo, monospace; border: 1px solid var(--line)
   <div class="body">
     <h3>Crea la password del Deck</h3>
     <div class="cmd"><pre>passwd</pre><button type="button">Copia</button></div>
-    <p class="note">Scrivila due volte e segnatela: ti servirà nei passi successivi.</p>
+    <p class="note">Solo <b>lettere minuscole e numeri</b>: la tastiera di Steam a volte non manda le maiuscole. Scrivila due volte e segnatela.</p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
@@ -108,28 +118,16 @@ EOF</pre><button type="button">Copia</button></div>
     <div class="cmd"><pre>curl -LO https://cdn.a2tools.app/linux/a2tools-dps-meter-latest-x86_64.pkg.tar.zst</pre><button type="button">Copia</button></div>
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -Syu --noconfirm</pre><button type="button">Copia</button></div>
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -U --noconfirm ~/a2tools-dps-meter-latest-x86_64.pkg.tar.zst</pre><button type="button">Copia</button></div>
-    <p class="note">Il secondo comando, la prima volta, prepara la scatola per qualche minuto. Se chiede una password, usa quella del Deck. Alla fine del terzo deve comparire <code>A2Tools DPS Meter may now capture packets.</code></p>
+    <p class="note">Il secondo, la prima volta, prepara la scatola per qualche minuto. Alla fine del terzo: <code>A2Tools DPS Meter may now capture packets.</code></p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
-<h2>Ogni volta che giochi</h2>
-
-<section class="step" data-step="6">
-  <div class="num">▶</div>
-  <div class="body">
-    <h3>Prima il gioco, poi il meter</h3>
-    <p class="note">In Modalità Desktop avvia AION 2 da Steam, poi incolla in Konsole:</p>
-    <div class="cmd"><pre>distrobox enter --root a2tools -- a2tools-dps-meter</pre><button type="button">Copia</button></div>
-    <p class="note">Tieni Konsole aperta. La volta dopo basta la freccia <kbd>↑</kbd> e poi Invio.</p>
-  </div>
-</section>
-
 <section class="step" data-step="7">
-  <div class="num">★</div>
+  <div class="num">6</div>
   <div class="body">
-    <h3>Icona sul desktop (una volta sola)</h3>
-    <p class="note">Incolla tutto insieme in Konsole e premi Invio. Sul desktop compare «A2Tools DPS Meter».</p>
+    <h3>Icona sul desktop</h3>
+    <p class="note">Incolla tutto insieme. Sul desktop compare «A2Tools DPS Meter».</p>
     <div class="cmd"><pre>cat &gt; ~/Desktop/A2Tools.desktop &lt;&lt;'EOF'
 [Desktop Entry]
 Type=Application
@@ -139,31 +137,25 @@ Icon=utilities-system-monitor
 Terminal=true
 EOF
 chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></div>
-    <p class="note">Da qui in poi: avvia il gioco, poi doppio clic sull'icona. Si apre Konsole: non chiudere quella finestra.</p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
 <section class="step" data-step="10">
-  <div class="num">🔓</div>
+  <div class="num">7</div>
   <div class="body">
-    <h3>Avvio senza password (una volta sola)</h3>
-    <p class="note">Dopo questo, meter, Onboard e scatola non chiedono più la password. Il resto del Deck sì.</p>
+    <h3>Avvio senza password</h3>
     <div class="cmd"><pre>echo "deck ALL=(root) NOPASSWD: $(command -v podman)" &gt; /tmp/a2tools &amp;&amp; sudo visudo -cf /tmp/a2tools &amp;&amp; sudo install -m 440 /tmp/a2tools /etc/sudoers.d/zz-a2tools</pre><button type="button">Copia</button></div>
-    <p class="note">Chiede la password del Deck un'ultima volta. Se compare <code>analisi effettuata correttamente</code> (in inglese <code>parsed OK</code>) è fatto.</p>
-    <p class="note"><b>Verifica</b> (non chiede password; se va, stampa <code>podman version …</code>):</p>
+    <p class="note">Deve comparire <code>analisi effettuata correttamente</code>. Verifica: questo non chiede password e stampa <code>podman version …</code></p>
     <div class="cmd"><pre>sudo -n podman --version</pre><button type="button">Copia</button></div>
-    <p class="note"><b>Se il meter chiede ancora la password</b> e la regola l'avevi creata prima dell'8/11 sera: rinominala, così sudo la legge per ultima (vince l'ultima letta). Poi rifai la verifica.</p>
-    <div class="cmd"><pre>sudo mv /etc/sudoers.d/a2tools /etc/sudoers.d/zz-a2tools</pre><button type="button">Copia</button></div>
-    <p class="note">Per togliere la regola: <code>sudo rm /etc/sudoers.d/zz-a2tools</code></p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
 <section class="step" data-step="8">
-  <div class="num">★</div>
+  <div class="num">8</div>
   <div class="body">
-    <h3>Meter sempre sopra il gioco (una volta sola)</h3>
+    <h3>Meter sempre sopra il gioco</h3>
     <p class="note">Nel gioco: modalità schermo <b>In finestra</b>, risoluzione <b>1280×800</b>.</p>
     <p class="note">Impostazioni di sistema → Gestione delle finestre → Regole delle finestre. Due regole:</p>
     <p class="note"><b>Meter</b>: Aggiungi nuova → Rileva le proprietà della finestra → clic sul meter → Aggiungi proprietà «Mantieni sopra le altre»: Forza, Sì.</p>
@@ -177,47 +169,20 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <div class="num">⌨</div>
   <div class="body">
     <h3>Tastiera a schermo per il gioco (Onboard)</h3>
-    <p class="note">In Modalità Desktop la tastiera di Steam (STEAM+X) non scrive nel gioco. Installa Onboard, una volta sola:</p>
+    <p class="note">In Modalità Desktop la tastiera di Steam non scrive nel gioco. Installa Onboard:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- sudo pacman -S --noconfirm onboard</pre><button type="button">Copia</button></div>
     <p class="note">Per aprirla:</p>
     <div class="cmd"><pre>distrobox enter --root a2tools -- onboard</pre><button type="button">Copia</button></div>
-    <p class="note">Clicca nella casella del gioco, poi premi i tasti su Onboard. Non chiudere Konsole. ⚠️ Da provare.</p>
+    <p class="note">Clicca nella casella del gioco, poi premi i tasti su Onboard. ⚠️ Da provare.</p>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
-</section>
-
-<h2>Password rifiutata anche se è giusta</h2>
-
-<section class="step">
-  <div class="num">!</div>
-  <div class="body">
-    <h3>Dopo 3 errori il Deck blocca la password</h3>
-    <p class="note">1. Chiudi Konsole e aspetta <b>15 minuti</b> senza provare nessuna password (né meter, né Onboard, né Discover). Ogni tentativo allunga il blocco.</p>
-    <p class="note">2. Guarda i tentativi sbagliati (non chiede password). L'ultimo deve essere di almeno 10 minuti fa:</p>
-    <div class="cmd"><pre>faillock --user deck</pre><button type="button">Copia</button></div>
-    <p class="note">3. Una prova sola: <b>Malusc spento</b>, scrivi piano, un solo Invio. Va bene anche il passo 🔓 al posto di questo.</p>
-    <div class="cmd"><pre>sudo true</pre><button type="button">Copia</button></div>
-    <p class="note">Torna <code>(deck@steamdeck ~)$</code> senza errori: è sbloccata. Compare <code>Riprovare</code>: non scrivere altro, chiudi Konsole e manda una foto.</p>
-  </div>
-</section>
-
-<section class="step">
-  <div class="num">✎</div>
-  <div class="body">
-    <h3>Cambiare la password se Malusc non funziona</h3>
-    <p class="note">Per una password con l'iniziale maiuscola. Nella stessa Konsole, uno alla volta. Il riavvio del Deck azzera il blocco.</p>
-    <p class="note">1. Scrivi la password <b>tutta minuscola</b> (non si vede), poi Invio. Il comando rende maiuscola la prima lettera:</p>
-    <div class="cmd"><pre>read -rsp "Password tutta minuscola: " p; echo; printf '%s\n' "${p^}" | sudo -S true; unset p</pre><button type="button">Copia</button></div>
-    <p class="note">Torna <code>(deck@steamdeck ~)$</code> senza errori: accettata. Subito dopo:</p>
-    <p class="note">2. Nuova password, <b>solo minuscole e numeri</b>, scritta due volte:</p>
-    <div class="cmd"><pre>sudo passwd deck</pre><button type="button">Copia</button></div>
-    <p class="note">3. Poi il passo 🔓, per avviare il meter senza password.</p>
-  </div>
 </section>
 
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
+Password rifiutata anche se giusta: dopo 3 errori il Deck la blocca per 10 minuti. Aspetta, oppure riavvia il Deck.<br>
+Aggiornare il meter: rifai il primo e il terzo comando del passo 5.<br>
 Altro: fai una foto a Konsole e mandala a Claude.</p>
 
 </main>
