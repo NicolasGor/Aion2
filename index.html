@@ -148,6 +148,8 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
     <div class="cmd"><pre>echo "deck ALL=(root) NOPASSWD: $(command -v podman)" &gt; /tmp/a2tools &amp;&amp; sudo visudo -cf /tmp/a2tools &amp;&amp; sudo install -m 440 /tmp/a2tools /etc/sudoers.d/zz-a2tools</pre><button type="button">Copia</button></div>
     <p class="note">Deve comparire <code>analisi effettuata correttamente</code>. Verifica: questo non chiede password e stampa <code>podman version …</code></p>
     <div class="cmd"><pre>sudo -n podman --version</pre><button type="button">Copia</button></div>
+    <p class="note">Se il meter chiede ancora la password, prima incolla questo (chiede la password una volta), poi rifai la verifica:</p>
+    <div class="cmd"><pre>sudo mv /etc/sudoers.d/a2tools /etc/sudoers.d/zz-a2tools</pre><button type="button">Copia</button></div>
   </div>
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
