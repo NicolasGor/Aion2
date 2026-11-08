@@ -144,6 +144,19 @@ chmod +x ~/Desktop/A2Tools.desktop</pre><button type="button">Copia</button></di
   <label class="check"><input type="checkbox" aria-label="fatto"></label>
 </section>
 
+<section class="step" data-step="8">
+  <div class="num">★</div>
+  <div class="body">
+    <h3>Meter sempre sopra il gioco (una volta sola)</h3>
+    <p class="note">Nel gioco: modalità schermo <b>In finestra</b>, risoluzione <b>1280×800</b>.</p>
+    <p class="note">Impostazioni di sistema → Gestione delle finestre → Regole delle finestre. Due regole:</p>
+    <p class="note"><b>Meter</b>: Aggiungi nuova → Rileva le proprietà della finestra → clic sul meter → Aggiungi proprietà «Mantieni sopra le altre»: Forza, Sì.</p>
+    <p class="note"><b>Gioco</b>: Aggiungi nuova → Classe della finestra «Non importante» → Aggiungi proprietà «Titolo della finestra»: Corrispondenza esatta, <code>AION2</code>. Poi su Forza: Posizione 0×0, Dimensione 1280×800, Nessuna barra del titolo e cornice: Sì.</p>
+    <p class="note"><b>Barra in basso</b>: clic destro → Modifica pannello → Visibilità «Eludi le finestre».</p>
+  </div>
+  <label class="check"><input type="checkbox" aria-label="fatto"></label>
+</section>
+
 <h2>Se si blocca</h2>
 <p class="note">«insufficient space» al passo 4: incolla <code>sudo podman system reset --force</code>, poi rifai i passi 3 e 4.<br>
 Il meter non segna danni: rifai l'ultimo comando del passo 5.<br>
